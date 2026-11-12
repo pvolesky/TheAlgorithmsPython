@@ -29,6 +29,12 @@ def alternative_password_generator(chars_incl: str, i: int) -> str:
     # Password Generator = full boot with random_number, random_letters, and
     # random_character FUNCTIONS
     # Put your code here...
+    if i < 0 or len(chars_incl) > i:
+        msg = (
+            f"Requested password length ({i}) cannot be less than "
+            f"the number of required characters ({len(chars_incl)})."
+        )
+        raise ValueError(msg)
     i -= len(chars_incl)
     quotient = i // 3
     remainder = i % 3
@@ -86,10 +92,13 @@ def main() -> None:
         "Please indicate the characters that must be in your password: "
     ).strip()
     print("Password generated:", password_generator(length))
-    print(
-        "Alternative Password generated:",
-        alternative_password_generator(chars_incl, length),
-    )
+    try:
+        print(
+            "Alternative Password generated:",
+            alternative_password_generator(chars_incl, length),
+        )
+    except ValueError as err:
+        print(f"Alternative Password generation failed: {err}")
     print("[If you are thinking of using this password, You better save it.]")
 
 
